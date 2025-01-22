@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/dhurbab27/hello-world-react-package'
+                git branch: 'master', url: 'https://github.com/dhurbab27/hello-world-react-package'
             }
         }
         stage('Install Dependencies') {
