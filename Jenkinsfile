@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         NEXUS_URL = 'http://localhost:8081/repository/npm-hosted/'
-        NPM_AUTH_TOKEN = credentials('nexus-auth-token')
+        NPM_AUTH_TOKEN = credentials('nexus-auth-token') // Updated to use the new credential ID
     }
 
     stages {
@@ -26,12 +26,13 @@ pipeline {
         }
         stage('Publish') {
             steps {
+                withCredentials([string(credentialsId: 'nexus-auth-token', variable: 'NPM_AUTH_TOKEN')]) {
                 bat """
                     npm set registry $NEXUS_URL
-                    npm set //$NEXUS_URL:_auth $NPM_AUTH_TOKEN
+                    npm set //localhost:8081/repository/npm-hosted/:_authToken=$NPM_AUTH_TOKEN
                     npm publish
                 """
-
+                }
             }
         }
     }
