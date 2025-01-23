@@ -25,11 +25,13 @@ pipeline {
         }
         stage('Publish') {
             steps {
+                withCredentials([string(credentialsId: 'nexus-creds', variable: 'NPM_AUTH_TOKEN')]) {
                 bat """
                     npm set registry $NEXUS_URL
-                    npm set //localhost:8081/repository/npm-hosted/:_auth=$NPM_AUTH_TOKEN
-                    npm publish --loglevel verbose --registry=$NEXUS_URL --//localhost:8081/repository/npm-hosted/:_auth=$NPM_AUTH_TOKEN
+                    npm set //localhost:8081/repository/npm-hosted/:_authToken=$NPM_AUTH_TOKEN
+                    npm publish
                 """
+                }
             }
         }
     }
