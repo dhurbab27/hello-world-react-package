@@ -27,11 +27,11 @@ pipeline {
         stage('Publish') {
             steps {
                 withCredentials([string(credentialsId: 'nexus-auth-token', variable: 'NPM_AUTH_TOKEN')]) {
-                bat """
+                bat '''
                     npm set registry $NEXUS_URL
                     npm set //localhost:8081/repository/npm-hosted/:_authToken=$NPM_AUTH_TOKEN
                     npm publish
-                """
+                '''
                 }
             }
         }
