@@ -28,7 +28,7 @@ pipeline {
                 bat """
                     npm set registry $NEXUS_URL
                     npm set //localhost:8081/repository/npm-hosted/:_auth=$NPM_AUTH_TOKEN
-                    npm publish
+                    npm publish --loglevel verbose      
                 """
             }
         }
