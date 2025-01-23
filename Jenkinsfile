@@ -26,14 +26,11 @@ pipeline {
         }
         stage('Publish') {
             steps {
-              withCredentials([usernamePassword(credentialsId: 'nexus-creds', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
                 bat """
                     npm set registry $NEXUS_URL
-                    npm set //$NEXUS_URL:username=$NEXUS_USERNAME
-                    npm set //$NEXUS_URL:_password=$(echo -n $NEXUS_PASSWORD | base64)
+                    npm set //$NEXUS_URL:_auth $NPM_AUTH_TOKEN
                     npm publish
                 """
-                }
 
             }
         }
